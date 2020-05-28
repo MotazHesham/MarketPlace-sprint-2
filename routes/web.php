@@ -14,13 +14,13 @@
 use App\Category;
 use App\User;
 
-Route::get('/', 'CategoriesController@customer_categories');
+Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/logout', function () {
-	$user = User::find(auth()->user()->id);
+		$user = User::find(auth()->user()->id);
     $user ->login_status = 0;
     $user->save();
-	Auth::logout();
+		Auth::logout();
     return redirect("/");
 });
 
@@ -36,11 +36,11 @@ Route::get('/logout', function () {
 
 	Route::get('admin/products', 'ProductsController@admin_products_index');
 
-	Route::get('admin/products/approve/{id}', 'ProductsController@admin_products_approve');	
+	Route::get('admin/products/approve/{id}', 'ProductsController@admin_products_approve');
 
-	Route::get('admin/products/destroy/{id}', 'ProductsController@admin_product_destroy');	
+	Route::get('admin/products/destroy/{id}', 'ProductsController@admin_product_destroy');
 
-	Route::get('admin/categories/edit/{id}', 'CategoriesController@admin_categories_edit');	
+	Route::get('admin/categories/edit/{id}', 'CategoriesController@admin_categories_edit');
 
 	Route::put('admin/categories/confirm/{id}', 'CategoriesController@admin_categories_confirm_edit');
 
@@ -48,23 +48,20 @@ Route::get('/logout', function () {
 
 	Route::get('admin/comments/destroy/{id}', 'commentsController@admin_comments_destroy');
 
-	Route::get('admin/product/details/{id}', 'ProductsController@admin_product_details');
-
 	Route::get('admin/profile/edit/{id}','UsersController@admin_edit_profile');
 
 	Route::put('admin/profile/confirm/{id}', 'UsersController@admin_profile_confirm_edit');
 
 	Route::get('/deleteuser/{id}','UsersController@delete_user');
-	
+
 
 /*---------------- end admin routes ----------------*/
 
-		
-/*----------------start customer routes----------------*/			
-	
+
+/*----------------start customer routes----------------*/
+
 
 	Route::get('customer', 'CategoriesController@customer_categories');
-
 
 	Route::get('customer/products/of/category/{id}','ProductsController@product_of_category');
 
@@ -72,14 +69,14 @@ Route::get('/logout', function () {
 
 	Route::get('customer/cart/{id}', 'CartsController@customer_cart');
 
-	Route::get('customer/orders', 'OrderController@customer_order');
+	Route::get('customer/orders', 'OrderController@customer_orders');
 
 	Route::post('order/cart','OrderController@order_form');
 
 	Route::get('customer/product/details/{id}','ProductsController@customer_product_details');
 
-	Route::get('customer/profile/{id}','UsersController@customer_profile')->name('profile');
-	
+	Route::get('customer/profile/{id}','UsersController@customer_profile');
+
 	Route::get('customer/profile/edit/{id}','UsersController@customer_edit_profile');
 
 	Route::put('customer/profile/confirm/{id}', 'UsersController@customer_profile_confirm_edit');
@@ -90,16 +87,37 @@ Route::get('/logout', function () {
 
 	Route::get('comments/fetch/{id}','CommentsController@fetch_comments');
 
-    Route::get('add_to_cart/{product_id}','CartsController@add_to_cart');
+  Route::get('add_to_cart/{product_id}','CartsController@add_to_cart');
 
-		
+
 /*---------------- end customer routes ----------------*/
 
 /*---------------- start seller routes ----------------*/
 
-	
-		
+	Route::get('seller','ProductsController@view_store');
+
+	Route::get('seller/orders/{id}', 'OrderController@seller_orders');
+
+	Route::get('seller/profile/{id}','UsersController@seller_profile');
+
+	Route::get('seller/profile/edit/{id}','UsersController@seller_edit_profile');
+
+	Route::put('seller/profile/confirm/{id}', 'UsersController@seller_profile_confirm_edit');
+
+
 /*---------------- end seller routes ----------------*/
+
+/*---------------- start Chat routes ----------------*/
+
+	Route::get('insert_chat/{to_user_id}/{chat_message}','ChatController@insert_chat');
+
+	Route::get('fetch_user_chat_history/{to_user_id}','ChatController@fetch_user_chat_history');
+
+	Route::get('count_messages/{to_user_id}','ChatController@count_messages');
+
+	Route::get('fetch_contacts/{user_id}','ChatController@fetch_contacts');
+
+/*---------------- start Chat routes ----------------*/
 
 Auth::routes();
 

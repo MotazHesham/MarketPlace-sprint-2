@@ -1,4 +1,4 @@
-@extends('customer_view/layout_customer')
+@extends('seller_view/layout_seller')
 
 @include('functions')
 @section('content')
@@ -34,7 +34,7 @@
 			    <div>Age : <span>{{$user->age}}</span> </div>
 			    <div>Gender : <span>{{$user->gender}}</span></div>
 			  </div>
-				  <a href="/customer/profile/edit/{{$user->id}}" class="btn btn-success" style="color:white"><i class="far fa-edit"></i> Edit</a>
+				 <a href="/seller/profile/edit/{{$user->id}}" class="btn btn-success" style="color:white"><i class="far fa-edit"></i> Edit</a>
 			</div>
 
 		</div>

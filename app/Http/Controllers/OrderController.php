@@ -3,15 +3,22 @@
 namespace App\Http\Controllers;
 use App\User;
 use App\Order;
+use App\Product;
 use App\Cart;
+use Auth;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function customer_order(){
+    public function customer_orders(){
         $user = User::find(auth()->user()->id);
         $data = $user->order;
     	return view('customer_view.orders.orders')->with('data',$data);
+    }
+
+    public function seller_orders($id){
+        $data = Product::with('order')->find($id);
+    	  return view('seller_view.requested_orders.orders')->with('data',$data);
     }
 
     public function order_form(Request $request){
@@ -30,7 +37,7 @@ class OrderController extends Controller
             'cvv'           => 'required|integer'
         ]);
 
-        //request order 
+        //request order
         $Order = new Order;
         $Order->name = $request->input('name');
         $Order->email               = $request -> input('email');

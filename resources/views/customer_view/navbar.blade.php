@@ -42,14 +42,19 @@
 
 
     <ul class="navbar-nav ml-auto right-items-nav">
-          	
+
           	@guest
            <li class="nav-item">
              <a class="nav-link navbar-login" style="display: inline;" href="{{ url('login') }}">Login</a>
-              | 
+              |
              <a class="nav-link navbar-register" style="display: inline;" href="{{ url('register') }}">Register</a>
            </li>
            @else
+             @if(Auth::user()->role == 0)
+			           <li class="nav-item">
+			             <a data-userid="{{ Auth::user()->id }}" id="open_contacts" class="fab fa-facebook-messenger" style="color:white;cursor:pointer;font-size: 30px;margin-top: 10px;margin-right: -20px;"></a>
+			           </li>
+			        @endif
            <li class="nav-item">
              <a href="/customer/cart/{{Auth::user()->id}}" class="fa fa-shopping-cart" style="color:white;cursor:pointer;font-size: 30px;margin-top: 10px;margin-right: -20px;"></a>
            </li>
@@ -60,10 +65,10 @@
                <div class="dropdown-divider"></div>
                  <a class="dropdown-item" href="/customer/profile/{{Auth:: user()->id}}">Profile</a>
                <a class="dropdown-item" href="{{ route('logout') }}">Sign Out</a>
-             </div>    
+             </div>
            </li>
            @endguest
     </ul>
-    
+
   </div>
 </nav>

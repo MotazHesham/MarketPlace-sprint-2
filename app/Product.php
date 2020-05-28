@@ -13,7 +13,7 @@ class Product extends Model
     public function comment(){
     	return $this->hasMany("App\Comment");
     }
-    
+
     public function user(){
     	return $this->belongsTo("App\User",'id_seller');
     }
@@ -23,7 +23,7 @@ class Product extends Model
     }
 
     public function order(){
-        return $this->BelongsToMany("App\Order");
+        return $this->BelongsToMany("App\Order")->withpivot('quntity');
     }
 
 }

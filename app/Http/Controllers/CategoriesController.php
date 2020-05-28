@@ -7,8 +7,8 @@ use App\Category;
 
 class CategoriesController extends Controller
 {
-    
-    
+
+
     public function customer_categories(){
         $categories = Category::all();
         return view('customer_view.categories.categories')->with('categories',$categories);
@@ -33,7 +33,7 @@ class CategoriesController extends Controller
                 'img'=>'image|max:1999'
             ]);
 
-            //handel file upload 
+            //handel file upload
             if($request->hasFile('img')){
 
                 //get filename with the extention
@@ -68,7 +68,7 @@ class CategoriesController extends Controller
     public function admin_categories_destroy($id)
     {
         $Category = Category::find($id);
-        $Category->delete(); 
+        $Category->delete();
         return back()->with('success','Category Removed');
     }
 }

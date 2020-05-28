@@ -34,7 +34,7 @@ class UsersController extends Controller
                 'password'=> 'max:20'
             ]);
 
-            //handel file upload 
+            //handel file upload
             if($request->hasFile('img')){
 
                 //get filename with the extention
@@ -93,7 +93,64 @@ class UsersController extends Controller
                 'password'=> 'max:20'
             ]);
 
-            //handel file upload 
+            //handel file upload
+            if($request->hasFile('img')){
+
+                //get filename with the extention
+                $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+                //get just filename
+                $filename=pathinfo($filenameWithExt,PATHINFO_FILENAME);
+
+                //get just extention
+                $extention=$request->file('img')->getClientOriginalExtension();
+
+                //file name to store
+                $fileNameToStore=$filename.'_'.time().'.'.$extention;
+
+                //upload the image
+                $path=$request->file('img')->storeAs('public/uploads',$fileNameToStore);
+
+            }
+
+            //update
+            $user = user::find($id);
+            $user->name         = $request -> input('name');
+            $user->gender       = $request -> input('gender');
+            $user->age          = $request -> input('age');
+            $user->email        = $request -> input('email');
+            if($request->hasFile('img')){
+                $user->img =$fileNameToStore;
+            }
+            //check if user need to update his password
+            if(!empty($request->input('password'))){ $user->password = bcrypt($request->input('password')); }
+            $user->save();
+
+            return back()->with('success','user updated');
+    }
+
+    /* seller */
+
+  public function seller_profile($id){
+
+        $user = User::find($id);
+      return view('seller_view.profile.profile')->with('user' , $user);
+    }
+     public function seller_edit_profile($id){
+        $user = User::find($id);
+        return view('seller_view.profile.edit')->with('user' , $user);;
+    }
+    public function seller_profile_confirm_edit(Request $request, $id){
+
+        $this->validate($request,[
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+                'age'  => 'max:20',
+                'img'=>'image|max:1999',
+                'password'=> 'max:20'
+            ]);
+
+            //handel file upload
             if($request->hasFile('img')){
 
                 //get filename with the extention

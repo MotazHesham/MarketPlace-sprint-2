@@ -2,8 +2,6 @@
 
 @section('content')
 
-	
-	<h1>this is product section</h1>
-
+<h1>this is store view</h1>
 
 @endsection

@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
+use Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
@@ -52,15 +54,16 @@ class ProductsController extends Controller
         return back()->with('success','Product approved');
     }
 
-    
+
      public function admin_product_destroy($id)
     {
         $Product = Product::find($id);
-        $Product->delete(); 
+        $Product->delete();
         return back()->with('success','Product Removed');
     }
 
-
-
+    public function view_store(){
+      return view('seller_view.store.store');
+    }
 
 }

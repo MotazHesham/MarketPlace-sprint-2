@@ -32,7 +32,7 @@ class User extends Authenticatable
     }
 
     public function product(){
-        return $this->hasMany("App\Product",'id_user');
+        return $this->hasMany("App\Product",'id_seller');
     }
 
     public function comment(){
@@ -42,6 +42,6 @@ class User extends Authenticatable
     public function cart(){
         return $this->belongsTo("App\Cart",'id_user');
     }
-    
+
 
 }
