@@ -110,6 +110,9 @@ Route::get('/logout', function () {
 
     Route::get('seller/delete/product/{id}', 'ProductsController@seller_delete_product');
 
+   Route::get('add_product', 'ProductsController@add_product');
+
+   Route::post('add_product_confirm', 'ProductsController@add_product_confirm');
 /*---------------- end seller routes ----------------*/
 
 /*---------------- start Chat routes ----------------*/

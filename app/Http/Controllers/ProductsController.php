@@ -62,9 +62,7 @@ class ProductsController extends Controller
         return back()->with('success','Product Removed');
     }
 
-    public function view_store(){
-      return view('seller_view.store.store');
-    }
+
 
     public function seller_edit_product($id)
     {
@@ -128,6 +126,59 @@ class ProductsController extends Controller
         $Product->delete();
         return back()->with('success','Product Removed');
     }
+
+    public function view_store(){
+        $products = Product::where('id_seller',Auth::id())->get();
+        return view('seller_view.store.store')->with('products',$products);
+    }
+
+    public function add_product()
+    {
+        $categories = Category::all();
+        return view('seller_view.store.add')->with('categories',$categories);
+    }
+
+    public function add_product_confirm(Request $request)
+    {
+        $this->validate($request,[
+            'name' => 'required|max:20|min:3',
+            'description' => 'required|max:100|min:3',
+            'price' => 'required|integer',
+            'img'=>'image|nullable|max:1999'
+        ]);
+
+        //handel file upload
+        if($request->hasFile('img')){
+            //get filename with the extention
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+            //get just filename
+            $filename=pathinfo($filenameWithExt,PATHINFO_FILENAME);
+            //get just extention
+            $extention=$request->file('img')->getClientOriginalExtension();
+            //file name to store
+            $fileNameToStore=$filename.'_'.time().'.'.$extention;
+            //upload the image
+            $path=$request->file('img')->storeAs('public/uploads',$fileNameToStore);
+
+        }else{
+            $fileNameToStore='empty.jpg';
+        }
+
+        //create product
+        $Product = new Product;
+        $Product->name         = $request -> input('name');
+        $Product->description  = $request -> input('description');
+        $Product->price        = $request -> input('price');
+        $Product->id_seller    = auth()->user()->id;
+        $Product->id_category  = $request -> input('category');
+        $Product->img          = $fileNameToStore;
+        $Product->save();
+
+        return back()->with('success','Product Created');
+
+    }
+
+
 
 
 }
