@@ -13,7 +13,7 @@ use DB;
 
 class CommentsController extends Controller
 {
-    
+
 
 	public function admin_comments_index(){
         $comments = Comment::all();
@@ -22,7 +22,7 @@ class CommentsController extends Controller
     public function admin_comments_destroy($id)
     {
         $comment = comment::find($id);
-        $comment->delete(); 
+        $comment->delete();
         return back()->with('success','comment Removed');
     }
 
@@ -57,21 +57,21 @@ class CommentsController extends Controller
         $added_date_2 = explode(":", $added_date[1]);
         $change_timeformat = date('h:i a ', strtotime($added_date[1]));//change time from 24h to 12h (am) or (pm)
 
-        $strStart = ($date);  
+        $strStart = ($date);
         $strEnd = (date("Y-m-d H:i")); //current date
         $dteStart = new DateTime($strStart);
         $dteEnd   = new DateTime($strEnd);
-          
+
           $dteDiff  = $dteStart->diff($dteEnd);
 
           $diffrence = explode(" ", $dteDiff->format("%Y-%M-%d %h:%i"));
           $diffrence_1 =explode("-", $diffrence[0]);
           $diffrence_2 =explode(":", $diffrence[1]);
 
-          $ago = ''; 
+          $ago = '';
 
           if($diffrence_1[0] != 0){
-            $ago = CommentsController::getmonth_name($added_date_1[1]) . " " . $added_date_1[2] . "," . $added_date_1[0]; 
+            $ago = CommentsController::getmonth_name($added_date_1[1]) . " " . $added_date_1[2] . "," . $added_date_1[0];
             return $ago;
           }
           if($diffrence_1[1] != 0){
@@ -103,14 +103,14 @@ class CommentsController extends Controller
 
       }
 
-      /* this function called by calculate_diff_date() 
-            to get the month name  
+      /* this function called by calculate_diff_date()
+            to get the month name
       */
       public function getmonth_name($monthNum){
         $dateObj   = DateTime::createFromFormat('!m', $monthNum);
         $monthName = $dateObj->format('F');
         return $monthName;
-      } 
+      }
 
 
 }

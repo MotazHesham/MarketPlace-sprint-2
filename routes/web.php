@@ -25,6 +25,7 @@ Route::get('/logout', function () {
 });
 
 /*---------------- start admin routes ----------------*/
+Route::group(['middleware' => 'admin'],function(){
 
 	Route::get('admin','HomeController@statistics');
 
@@ -54,16 +55,22 @@ Route::get('/logout', function () {
 
 	Route::get('/deleteuser/{id}','UsersController@delete_user');
 
+});
 
 /*---------------- end admin routes ----------------*/
 
 
 /*----------------start customer routes----------------*/
 
-
 	Route::get('customer', 'CategoriesController@customer_categories');
 
 	Route::get('customer/products/of/category/{id}','ProductsController@product_of_category');
+
+	Route::get('customer/product/details/{id}','ProductsController@customer_product_details');
+
+	Route::get('comments/fetch/{id}','CommentsController@fetch_comments');
+
+Route::group(['middleware' => 'customer'],function(){
 
 	Route::get('customer/cart/delete/{product_id}', 'CartsController@customer_cart_delete');
 
@@ -72,8 +79,6 @@ Route::get('/logout', function () {
 	Route::get('customer/orders', 'OrderController@customer_orders');
 
 	Route::post('order/cart','OrderController@order_form');
-
-	Route::get('customer/product/details/{id}','ProductsController@customer_product_details');
 
 	Route::get('customer/profile/{id}','UsersController@customer_profile');
 
@@ -85,14 +90,17 @@ Route::get('/logout', function () {
 
 	Route::post('comments/insert-comment','CommentsController@insert_comment');
 
-	Route::get('comments/fetch/{id}','CommentsController@fetch_comments');
-
   Route::get('add_to_cart/{product_id}','CartsController@add_to_cart');
 
+});
 
 /*---------------- end customer routes ----------------*/
 
 /*---------------- start seller routes ----------------*/
+
+
+
+Route::group(['middleware' => 'seller'],function(){
 
 	Route::get('seller','ProductsController@view_store');
 
@@ -104,15 +112,17 @@ Route::get('/logout', function () {
 
 	Route::put('seller/profile/confirm/{id}', 'UsersController@seller_profile_confirm_edit');
 
-    Route::get('seller/edit/product/{id}','ProductsController@seller_edit_product');
+  Route::get('seller/edit/product/{id}','ProductsController@seller_edit_product');
 
-    Route::put('seller/confirm_edit/product/{id}','ProductsController@seller_confirm_update_product');
+  Route::put('seller/confirm_edit/product/{id}','ProductsController@seller_confirm_update_product');
 
-    Route::get('seller/delete/product/{id}', 'ProductsController@seller_delete_product');
+  Route::get('seller/delete/product/{id}', 'ProductsController@seller_delete_product');
 
-   Route::get('add_product', 'ProductsController@add_product');
+ 	Route::get('add_product', 'ProductsController@add_product');
 
-   Route::post('add_product_confirm', 'ProductsController@add_product_confirm');
+ 	Route::post('add_product_confirm', 'ProductsController@add_product_confirm');
+
+});
 /*---------------- end seller routes ----------------*/
 
 /*---------------- start Chat routes ----------------*/

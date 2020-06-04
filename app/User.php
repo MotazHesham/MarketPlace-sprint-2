@@ -40,7 +40,7 @@ class User extends Authenticatable
     }
 
     public function cart(){
-        return $this->belongsTo("App\Cart",'id_user');
+        return $this->hasOne("App\Cart",'id_user');
     }
 
 

@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container text-center header-view">
-        <h1>This Your Own Store</h1>
+        <h1><span>{{Auth::user()->name}}</span> Store</h1>
         <p>here you can see all your product of your Store</p>
     </div>
 

@@ -40,8 +40,16 @@ class CartsController extends Controller
 
         if (Auth::user()) {
             $cart = Cart::where('id_user',Auth::user()->id)->get();
-            $cart[0]->product()->attach($product_id);
-            return back();
+            if(count($cart) > 0){
+              $cart[0]->product()->attach($product_id);
+              return view('customer_view.cart.cart')->with('cart',$cart[0]);
+            }else{
+                $new_cart = new Cart;
+                $new_cart->id_user = auth()->user()->id;
+                $new_cart->save();
+                $new_cart->product()->attach($product_id);
+                return view('customer_view.cart.cart')->with('cart',$new_cart);
+            }
         }
 
         else{
@@ -60,23 +68,11 @@ class CartsController extends Controller
     }
     public function customer_cart_delete($id)
     {
-        
+
         $carts = Cart::where('id_user',auth()->user()->id)->get();
         $carts[0]->product()->wherePivot('product_id','=',$id)->detach();
         return back()->with('success','product Removed');
     }
-    
+
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
